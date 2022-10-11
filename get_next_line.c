@@ -14,12 +14,12 @@
 
 char    *get_next_line(int fd)
 {
-    char    *buffer;
-    char    *line;
+    static char     *buffer;
+    char            *line;
 
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
-    buffer = read (fd);
+    buffer = ft_fd_read(fd, buffer);
     if (!buffer)
         return (NULL);
     line = ft_get_line(buffer);

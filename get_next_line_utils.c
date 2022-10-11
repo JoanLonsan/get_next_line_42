@@ -81,7 +81,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (sj);
 }
 
-char    *ft_free_gnl(char *ret, char *buffer)
+char    *ft_get_buffer(char *ret, char *buffer)
 {
     char    *aux;
 
@@ -108,7 +108,7 @@ char    *ft_fd_read(int fd, char *buffer)
             return (NULL);
         }
         aux[i] = '\0';
-        buffer = ft_free(buffer, aux);
+        buffer = ft_get_buffer(buffer, aux);
         if (ft_strchr(aux, '\n'))
             break;
     }
