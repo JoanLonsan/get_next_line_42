@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_get_buffer(char *ret, char *buffer)
 {
@@ -97,15 +97,26 @@ char	*ft_get_next(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[1024];
 	char		*line;
+	int			i;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	i = 0;
+	if (read(fd, 0, 0) == -1)
+	{
+		if (buffer[fd])
+		{
+			free(buffer[fd]);
+			buffer[fd] = NULL;
+		}
 		return (NULL);
-	buffer = ft_fd_read(fd, buffer);
-	if (!buffer)
+	}
+	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = ft_get_line(buffer);
-	buffer = ft_get_next(buffer);
+	buffer[fd] = ft_fd_read(fd, buffer[fd]);
+	if (!buffer[fd])
+		return (NULL);
+	line = ft_get_line(buffer[fd]);
+	buffer[fd] = ft_get_next(buffer[fd]);
 	return (line);
 }
